@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-#import jason lib and url
+#import json lib and url
 import urllib, json
 
 
@@ -39,9 +39,9 @@ def main():
 	for key, value in results.items():
 		output["invalid_customers"].append({"id" : key, "invalid_fields": value})
 
-	jason_output = json.dumps(output)
+	json_output = json.dumps(output)
 
-	print(jason_output)
+	print(json_output)
 	log.close()
 
 
