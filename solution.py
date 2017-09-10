@@ -18,7 +18,7 @@ def main():
 	total = data["pagination"]["total"]
 
 	log.write("the total number of pages is " + str(total))
-
+	results = dict()
 	#loop through all pages
 	for i in range(1,total+1):
 		url = "https://backend-challenge-winter-2017.herokuapp.com/customers.json?page=" + str(i)
@@ -31,16 +31,15 @@ def main():
 		validations = data["validations"]
 		customers = data["customers"]
 
-		results = violations(validations, customers, log)
+		results.update(violations(validations, customers, log))
 
-		print(results)
-
+	print(results)
 	log.close()
 
 
 #define violations
 def violations(validaitons, customers, log):
-	violations = dict()
+	results = dict()
 	for customer in customers:
 		for condition in validaitons:
 			#for each customer try all problems
@@ -48,12 +47,14 @@ def violations(validaitons, customers, log):
 				customerID = customer['id']
 				field = key = list(condition)[0]
 
-				if customerID in violations:
-					violations[customerID].append(field)
+				log.write("customer number " + str(customerID) + " has a violation in " + str(key) + " \n")
+				log.write("condition is " + str(condition) + " customer attribute is " + str(customer[key]) + "\n")
+				if customerID in results:
+					results[customerID].append(field)
 				else:
-					violations[customerID] = [field]
+					results[customerID] = [field]
 
-	return violations
+	return results
 
 
 
@@ -89,7 +90,7 @@ def validateCustomer(customer, condition, log):
 			return False
 		if(t == "number" and (key in customer) and not (type(customer[key]) is int)):
 			return False
-		if(t == "string" and (key in customer) and not (type(customer[key]) is str)):
+		if(t == "string" and (key in customer) and not (type(customer[key]) is unicode)):
 			return False 
 
 	if(minimum != -1 or maximum != -1):
