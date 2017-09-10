@@ -33,7 +33,15 @@ def main():
 
 		results.update(violations(validations, customers, log))
 
-	print(results)
+	#transform results to the desired output
+	output = dict()
+	output["invalid_customers"] = []
+	for key, value in results.items():
+		output["invalid_customers"].append({"id" : key, "invalid_fields": value})
+
+	jason_output = json.dumps(output)
+
+	print(jason_output)
 	log.close()
 
 
