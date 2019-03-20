@@ -1,4 +1,4 @@
-# shopify-backend-challenge
+# shopify-backend-challenge-2017
 shopify-backend-challenge
 
 # how to run
